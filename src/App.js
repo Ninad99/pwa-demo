@@ -5,8 +5,9 @@ import {
   makeStyles,
 } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Navbar from './components/navbar';
 import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import Navbar from './components/navbar';
 import AddItem from './components/addItem';
 import List from './components/list';
 
@@ -53,6 +54,9 @@ function App() {
       <CssBaseline />
       <Navbar />
       <Container maxWidth='sm' className={classes.container}>
+        <Typography variant='h6' style={{ padding: '0 2rem' }}>
+          A demo PWA. You can add/remove list items below:
+        </Typography>
         <AddItem handleAddItem={handleAddItem} />
         <List items={listItems} removeItem={removeItem} />
       </Container>

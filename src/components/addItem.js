@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Alert, AlertTitle } from '@material-ui/lab';
@@ -35,10 +34,7 @@ export default function AddItem(props) {
   };
 
   return (
-    <Box p={1}>
-      <Typography variant='h6' style={{ padding: '0 1rem' }}>
-        A demo PWA. You can add/remove list items below:
-      </Typography>
+    <Box p={2}>
       <form
         className={classes.form}
         noValidate
