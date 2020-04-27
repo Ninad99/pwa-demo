@@ -3,16 +3,22 @@ import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChatIcon from '@material-ui/icons/Chat';
-import VideoCallIcon from '@material-ui/icons/VideoCall';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Button } from '@material-ui/core';
+import {
+  Grid,
+  Typography,
+  Modal,
+  Backdrop,
+  Fade,
+  Button,
+  Paper,
+} from '@material-ui/core';
+import {
+  ExpandMore as ExpandMoreIcon,
+  Chat as ChatIcon,
+  VideoCall as VideoCallIcon,
+  Delete as DeleteIcon,
+} from '@material-ui/icons';
+import AddItem from './addItem';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: '0 3px 5px rgba(0, 0, 0, 0.2)',
-    padding: theme.spacing(2, 4, 3),
+    border: '1px solid #aaa',
+    padding: '1rem',
+    textAlign: 'center',
+    cursor: 'pointer',
   },
 }));
 
@@ -47,6 +54,7 @@ export default function ListItem(props) {
   const { item, itemKey, removeItem } = props;
   const [open, setOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
+  const [innerItems, setInnerItems] = useState([]);
 
   const handleOpen = (operation) => {
     setOpen(true);
@@ -56,6 +64,16 @@ export default function ListItem(props) {
   const handleClose = () => {
     setOpen(false);
     setModalTitle('');
+  };
+
+  const handleAddItem = (item) => {
+    setInnerItems((prevItems) => [...prevItems, item]);
+  };
+
+  const removeInnerItem = (itemIndex) => {
+    setInnerItems((prevItems) =>
+      prevItems.filter((item, index) => index !== itemIndex)
+    );
   };
 
   return (
@@ -93,6 +111,22 @@ export default function ListItem(props) {
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <Grid container justify='center' spacing={2}>
+            <Grid item xs={12} className={classes.flexRoot}>
+              <AddItem handleAddItem={handleAddItem} />
+            </Grid>
+            {innerItems.length > 0 && (
+              <>
+                {innerItems.map((item, index) => (
+                  <Grid item xs={12} key={index} className={classes.flexRoot}>
+                    <Paper
+                      className={classes.paper}
+                      onClick={() => removeInnerItem(index)}>
+                      {item}
+                    </Paper>
+                  </Grid>
+                ))}
+              </>
+            )}
             <Grid item md={3} className={classes.flexRoot}>
               <Button
                 variant='outlined'
